@@ -1,0 +1,176 @@
+\documentclass{article}
+\usepackage{amsmath, amssymb, amsfonts}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{physics}
+
+\title{SRFT Fractional PDE Expansion Plan}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section{Phase 0: Baseline (Existing MVP)}
+
+\textbf{Goal:} Establish a stable proof-of-concept PDE that demonstrates amplitude lumps, threshold switching, and memory effects.
+
+\subsection{Theoretical}
+Finalize well-posedness for the single-domain or extended-manifold PDE, analyzing blowup behavior and amplitude triggers.
+Ensure a simple yet stable simulation that captures lumps forming or saturating in 1D or 2D.
+
+\subsection{Numerical / Toy Simulation}
+Implement a basic fractional PDE solver:
+\begin{equation}
+    \partial_t^{\alpha} A + (-\Delta)^s A = F(A)
+\end{equation}
+in 1D.
+Reproduce threshold-based blowups or stable lumps.
+Verify iterative convergence and energy bounds.
+
+\textbf{Outcome:} A "hello world" implementation of the SRFT PDE as proof-of-concept.
+
+\section{Phase 1: Introduce a Simple Newtonian Potential Coupling}
+
+\textbf{Motivation:} Emulate Newtonian gravity by introducing a mass-like amplitude-dependent potential.
+
+\subsection{Theoretical}
+Introduce a second variable $\Phi(x)$ governed by a Poisson equation:
+\begin{equation}
+    L_z^s g \Phi = \kappa |A|^2, \quad \text{or} \quad \Delta \Phi = C |A|^2.
+\end{equation}
+Couple $\Phi$ back into the PDE for $A$ with a forcing term:
+\begin{equation}
+    - \nabla \Phi \cdot \nabla A.
+\end{equation}
+Prove existence/uniqueness in a low-dimensional setting.
+
+\subsection{Numerical / Toy Simulation}
+Solve a coupled PDE system iteratively:
+\begin{enumerate}
+    \item Solve fractional PDE for $A$.
+    \item Solve $\Delta \Phi = |A|^2$.
+    \item Update $A$ with $\Phi$ coupling.
+\end{enumerate}
+Observe if lumps "clump together" under the potential.
+
+\textbf{Outcome:} A minimal model showing lump-induced gravitational attraction.
+
+\section{Phase 2: Expand Domain and Add Electromagnetism}
+
+\textbf{Motivation:} Introduce a $U(1)$ gauge field for electromagnetism.
+
+\subsection{Theoretical}
+Introduce field variables:
+\begin{equation}
+    A(x), \quad A_\mu(x), \quad \text{or} \quad F_{\mu \nu}.
+\end{equation}
+Couple Maxwell's equations to amplitude lumps:
+\begin{equation}
+    \rho = |A|^2.
+\end{equation}
+
+\subsection{Numerical / Toy Simulation}
+Discretize and solve:
+\begin{enumerate}
+    \item Fractional wave equation for lumps.
+    \item Maxwell equations with charge density $\rho$.
+    \item Observe charge-dependent lump interactions.
+\end{enumerate}
+
+\textbf{Outcome:} A toy "SRFT + U(1)" model demonstrating charge-carrying lumps.
+
+\section{Phase 3: Merge Newtonian Gravity and U(1) in 2D}
+
+\textbf{Motivation:} Investigate interactions between gravity-like and electromagnetic fields in a toy PDE system.
+
+\subsection{Theoretical}
+Combine the PDE system from Phases 1 and 2.
+Attempt a partial existence proof for a fractional PDE system in 2D.
+
+\subsection{Numerical / Toy Simulation}
+Solve iteratively in a 2D domain:
+\begin{enumerate}
+    \item Update amplitude lumps.
+    \item Solve $\Phi$ for gravity.
+    \item Solve $A_\mu$ for EM.
+    \item Observe combined interactions.
+\end{enumerate}
+
+\textbf{Outcome:} A system where lumps generate gravitational wells and electromagnetic repulsion.
+
+\section{Phase 4: Extend to Weak Force (SU(2) Gauge Group)}
+
+\textbf{Motivation:} Introduce weak isospin states.
+
+\subsection{Theoretical}
+Extend the PDE to allow a two-component amplitude:
+\begin{equation}
+    \Psi = (\psi_1, \psi_2).
+\end{equation}
+Couple to an $SU(2)$ gauge potential $W_\mu^a$.
+
+\subsection{Numerical / Toy Simulation}
+Implement a 1D/2D solver including the weak force gauge field.
+Observe how doublets transform and interact.
+
+\textbf{Outcome:} A toy weak-force model.
+
+\section{Phase 5: Preliminary Strong Force (SU(3) Gauge Group)}
+
+\textbf{Motivation:} Explore color charge interactions.
+
+\subsection{Theoretical}
+Introduce color-charged lumps in an $SU(3)$ representation.
+Analyze potential confinement effects.
+
+\subsection{Numerical / Toy Simulation}
+Simulate a 1D or small-lattice approach to check for color singlet formation.
+
+\textbf{Outcome:} A minimal QCD-like PDE with color confinement properties.
+
+\section{Phase 6: Emergent Metric for Gravity}
+
+\textbf{Motivation:} Move from Newtonian to metric-based gravity.
+
+\subsection{Theoretical}
+Define stress-energy tensor $T_{\mu\nu}$ and link curvature to lumps:
+\begin{equation}
+    R_{\mu\nu} = \kappa T_{\mu\nu}.
+\end{equation}
+
+\subsection{Numerical / Toy Simulation}
+Simulate a toy 2D "mini-spacetime" solving Einstein-like equations dynamically.
+
+\textbf{Outcome:} A first attempt at emergent curvature from lump interactions.
+
+\section{Phase 7: Unifying All into a GUT-Like PDE}
+
+\textbf{Motivation:} Integrate EM, Weak, Strong, and Gravity into a single PDE framework.
+
+\subsection{Theoretical}
+Develop a unified PDE system incorporating:
+\begin{equation}
+    \Psi, (A_\mu, W_\mu, G_\mu), g_{\mu\nu}.
+\end{equation}
+Analyze consistency and feasibility.
+
+\subsection{Numerical / Toy Simulation}
+Develop a high-performance computing (HPC) implementation to simulate full interactions.
+
+\textbf{Outcome:} A preliminary grand unified PDE model.
+
+\section{General Methodological Guidelines}
+
+\begin{itemize}
+    \item Incrementally add physics layers to ensure stability.
+    \item Prioritize local or short-time existence proofs.
+    \item Focus on 1D/2D simulations to manage computational complexity.
+    \item Validate against simpler known PDE models.
+    \item Maintain clear documentation of incremental findings.
+\end{itemize}
+
+\textbf{Conclusion:} This stepwise approach allows for incremental breakthroughs in understanding fractional PDEs and their connection to gauge fields and emergent geometry.
+
+\end{document}
